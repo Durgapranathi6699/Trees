@@ -1,0 +1,11 @@
+https://bit.ly/3zJmUTn
+
+class Tree
+{
+	public static int getSize(Node root)
+	{
+      // if(root==null)return 0;
+       return 1+(root.left!=null?getSize(root.left):0)+(root.right!=null?getSize(root.right):0);//if root.left not null then only
+      // recursion for left sio that recursion calls sre reducred
+    }
+}
