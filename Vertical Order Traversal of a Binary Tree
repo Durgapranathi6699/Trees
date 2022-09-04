@@ -1,0 +1,33 @@
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        //treemap store distance  inside it store treemap (which stores level and values)
+        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> tm=new TreeMap<>();
+        //vertical order should be sorted ,values inside should be in level order and in sorted order
+        //dis,val
+        helper(root,0,0,tm);
+        List<List<Integer>> ans=new ArrayList<>();
+        
+        for(TreeMap<Integer,PriorityQueue<Integer>> val1:tm.values()){
+            ans.add(new ArrayList<>());
+            for(PriorityQueue<Integer> val2:val1.values()){
+                while(!val2.isEmpty()){
+                   ans.get(ans.size()-1).add(val2.poll());
+                }
+            }
+        }
+        return ans;
+    }
+    void helper(TreeNode root,int x,int y, TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> tm){
+        //x is distance y is level
+        if(root==null)return;
+        if(!tm.containsKey(x)){
+            tm.put(x,new TreeMap<>());
+        }
+        if(!tm.get(x).containsKey(y)){
+            tm.get(x).put(y,new PriorityQueue<>());
+        }
+        tm.get(x).get(y).add(root.val);
+        helper(root.left,x-1,y+1,tm);//level increses ,distanec-1
+        helper(root.right,x+1,y+1,tm);
+    }
+}
