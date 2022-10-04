@@ -1,0 +1,32 @@
+class Solution {
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        // if(root==null)return false;
+        // if(root.left==null && root.right==null && targetSum==root.val)return true;
+        // return hasPathSum(root.left,targetSum-root.val) || hasPathSum(root.right,targetSum-root.val);
+        
+        Queue<Integer> q=new LinkedList<>();
+        Queue<TreeNode> q1=new LinkedList<>();
+        if(root==null)return false;
+        q.add(root.val);
+        q1.add(root);
+        while(!q1.isEmpty()){
+            int n=q.size();
+            for(int i=0;i<n;i++){
+           TreeNode t=q1.remove();
+                int sum=q.remove();
+            if(t.left==null && t.right==null && sum==targetSum){
+                   return true;
+               }
+               if(t.left!=null){
+                   q1.add(t.left);
+                   q.add(sum+t.left.val);
+               }
+               if(t.right!=null){
+                   q1.add(t.right);
+                   q.add(sum+t.right.val);
+               }
+            }
+        }
+        return false;
+    }
+}
