@@ -1,0 +1,24 @@
+class Solution {
+    long totalsum=0;
+    long maxproduct=0;
+    long subsum=0;
+    public int maxProduct(TreeNode root) {
+       //max of subtreesum*(totalsum-subtreesum) 
+     caltotalsum(root);//sum of all nodes 
+      subtreesum(root);
+       return (int)(maxproduct%((int)Math.pow(10,9)+7));
+
+    }
+    public long  subtreesum(TreeNode root){
+        if(root==null)return 0;
+       subsum=root.val+subtreesum(root.left)+subtreesum(root.right);
+        maxproduct=Math.max(maxproduct,subsum*(totalsum-subsum));
+       return subsum;
+    }
+    public void caltotalsum(TreeNode root){
+        if(root==null)return;
+        totalsum+=root.val;
+        caltotalsum(root.left);
+        caltotalsum(root.right);
+    }
+}
