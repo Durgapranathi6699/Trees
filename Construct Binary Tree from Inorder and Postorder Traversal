@@ -1,0 +1,31 @@
+class Solution {
+  public TreeNode buildTree(int[] inorder, int[] postorder) {
+          if(inorder==null || postorder==null || postorder.length!=inorder.length)return null;
+        //store inorder value and its index to know position of root element
+        //post order last node is root
+       Map<Integer,Integer> map=new HashMap<>();
+        for(int i=0;i<inorder.length;i++){
+            map.put(inorder[i],i);
+        }
+        TreeNode root=helper(inorder,0,inorder.length-1,postorder,0,postorder.length-1,map);
+        return root;
+    }
+    TreeNode helper(int []inorder,int instart,int inend,int []postorder,int poststart,int postend,Map<Integer,Integer> map){
+        if(poststart>postend || instart>inend){
+            return null;
+        }
+        TreeNode root=new TreeNode(postorder[postend]);
+        int inpos=map.get(root.val);
+        int numsinleft=inpos-instart;
+        root.left=helper(inorder,instart,inpos-1,postorder,poststart,poststart+numsinleft-1,map);
+        //for finding root left subtree 
+        //inorder values takes nodes before inpos (i.e from instart to inpos-1) and inpos is root here
+        //postorder takes the no.of values the inorder is considering for its left subtree
+        root.right=helper(inorder,inpos+1,inend,postorder,poststart+numsinleft,postend-1,map);
+        //for finding right subtree
+        //nodes that are right side of root in inorder are considered
+        //inorder values range from inpos+1 to inend
+        //postorder values considers the no.of values the inorder is considering 
+        return root;
+    }
+}
