@@ -1,0 +1,28 @@
+class Solution {
+    public List<TreeNode> allPossibleFBT(int n) {
+        return solve(n);
+    }
+    List<TreeNode> solve(int n){
+        List<TreeNode> ans=new ArrayList<TreeNode>();
+        if(n%2==0)return ans;
+        if(n==1){
+            TreeNode root=new TreeNode(0);
+            ans.add(root);
+        }
+        else{
+            for(int i=1;i<n;i=i+2){
+               List<TreeNode> left=solve(i);
+               List<TreeNode> right=solve(n-i-1);
+               for(int l=0;l<left.size();l++){
+                   for(int r=0;r<right.size();r++){
+                    TreeNode root=new TreeNode(0);
+                    root.left=left.get(l);
+                    root.right=right.get(r);
+                    ans.add(root);
+                   }
+               }
+            }
+        }
+        return ans;
+    }
+}
